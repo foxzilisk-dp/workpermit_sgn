@@ -1,4 +1,4 @@
-# 🇬🇧 Work Permit App (Flutter)
+# Work Permit App (Flutter)
 
 This is a mobile app for people who want to apply for a digital work permit.  
 You can log in, get a code by email (2FA), check your application, and see your work permit.
@@ -42,5 +42,54 @@ You can log in, get a code by email (2FA), check your application, and see your 
 ### 1. Get the code
 
 ```bash
-git clone https://github.com/your-org/work-permit-app.git
-cd work-permit-app
+git clone https://github.com/foxzilisk-dp/workpermit_sgn.git
+cd workpermit_sgn
+
+### 2. Install packages
+
+```bash
+flutter pub get
+
+### 3. Run the app
+
+```bash
+flutter run
+
+You need Android 13+ or iOS 17.5+.
+
+---
+
+## 🌐 Languages
+**The application supports**
+- English
+- Thai
+
+---
+
+## 📁 Data Files
+These files are in the assets/ folder:
+- users.json: mock users for login
+- verification_code.json: code for 2FA
+- dashboard/dashboard.json: visa status + notifications
+- dashboard/status_tracking.json: timeline steps
+
+---
+
+## 🧪 Testing
+To run all tests:
+
+```bash
+flutter test
+
+---
+
+## 🔧 Future Ideas
+- Help and support screens
+- Connect to real server
+- Add push notifications
+- Use state management 
+
+---
+
+## 👨‍💻 Developer
+Made by Pichaya D.
