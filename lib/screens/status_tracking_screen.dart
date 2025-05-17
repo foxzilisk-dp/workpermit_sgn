@@ -55,14 +55,18 @@ class _StatusTrackingScreenState extends State<StatusTrackingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final t = AppLocalizations.of(context);
+    final localtext = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        title: Text(t.translate('status_tracking')),
+        title: Text(
+          localtext.translate('status_tracking'),
+          style:
+              const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.pop(context),
         ),
         actions: const [
@@ -102,25 +106,28 @@ class _StatusTrackingScreenState extends State<StatusTrackingScreen> {
         backgroundColor: Colors.blue,
         child: const Icon(Icons.language),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.blue.shade50,
-                borderRadius: BorderRadius.circular(8),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.blue.shade50,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  "${localtext.translate('ltr_visa')}\n#${applicationId}",
+                  style: const TextStyle(color: Colors.blue),
+                ),
               ),
-              child: Text(
-                "${t.translate('ltr_visa')}\n#${applicationId}",
-                style: const TextStyle(color: Colors.blue),
-              ),
-            ),
-            const SizedBox(height: 24),
-            Expanded(
-              child: ListView.builder(
+              const SizedBox(height: 24),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: steps.length,
                 itemBuilder: (context, index) {
                   final step = steps[index];
@@ -131,9 +138,10 @@ class _StatusTrackingScreenState extends State<StatusTrackingScreen> {
                             color: _statusColor(step['status'])),
                         if (index < steps.length - 1)
                           Container(
-                              width: 2,
-                              height: 40,
-                              color: Colors.grey.shade300),
+                            width: 2,
+                            height: 40,
+                            color: Colors.grey.shade300,
+                          ),
                       ],
                     ),
                     title: Text(step['title']),
@@ -143,14 +151,14 @@ class _StatusTrackingScreenState extends State<StatusTrackingScreen> {
                               .toLocal()
                               .toString()
                           : step['status'] == 'in_progress'
-                              ? 'In progress'
-                              : 'Pending',
+                              ? localtext.translate('in_progress')
+                              : localtext.translate('pending'),
                     ),
                   );
                 },
               ),
-            )
-          ],
+            ],
+          ),
         ),
       ),
     );

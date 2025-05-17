@@ -22,10 +22,10 @@
   "home": "Home",
   "status": "Status",
   "profile": "Profile",
-  "logout_message": "You have been logged out due to inactivity.",
-  "language": "Language",
   "ltr_visa": "LTR Visa Application",
   "in_progress": "In progress",
   "pending": "Pending",
+  "logout_message": "You have been logged out due to inactivity.",
+  "language": "Language",
   "application_id": "Application ID"
 }

@@ -150,19 +150,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0,
-        items: [
-          BottomNavigationBarItem(
-              icon: const Icon(Icons.home), label: localtext.translate('home')),
-          BottomNavigationBarItem(
-              icon: const Icon(Icons.timeline),
-              label: localtext.translate('status')),
-          BottomNavigationBarItem(
-              icon: const Icon(Icons.person),
-              label: localtext.translate('profile')),
-        ],
-      ),
     );
   }
 }
