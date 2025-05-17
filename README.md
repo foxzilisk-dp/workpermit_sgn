@@ -1,72 +1,46 @@
-Visa Work Permit App
-This is a mobile app for people who want to apply for a digital work permit (LTR visa).
-You can login, verify your email, and check your application status.
+# 🇬🇧 Work Permit App (Flutter)
 
-The app works in English and Thai. It also works offline and syncs when online.
+This is a mobile app for people who want to apply for a digital work permit.  
+You can log in, get a code by email (2FA), check your application, and see your work permit.
 
-✅ Features
-Login with username and password
-Verify with code sent by email (2FA)
-Show application status
-Show notifications
-Switch language between English and Thai
-Auto logout after 30 minutes
-Offline mode supported
+---
 
-📦 Folder Structure
-lib/
-├── main.dart                  # App starts here
-├── screens/                   # App pages
-│   ├── login_screen.dart
-│   ├── verification_screen.dart
-│   ├── dashboard_screen.dart
-│   └── status_tracking_screen.dart
-├── services/                  # Logic for login, session, etc.
-├── local_stores/              # Language and settings
-└── assets/                    # Mock JSON data
+## ✅ Features
 
-🔧 How to Install
-Clone the project
+- Login with username and password
+- Two-step verification (2FA) with email code
+- Dashboard to show visa status and notifications
+- Timeline to track each step of the visa process
+- Digital Work Permit screen
+- Change language (English / Thai)
+- Work offline and sync when online
+- Auto logout after 30 minutes
 
-bash
-Copy code
-git clone https://github.com/your-org/workpermit-app.git
-cd workpermit-app
-Install Flutter packages
+---
 
-bash
-Copy code
-flutter pub get
-Run the app
+## 📱 Screens
 
-bash
-Copy code
-flutter run
+- **Login Screen**  
+  Type your username and password.
 
-🌐 Change Language
-Tap the 🌍 language button in the bottom right
+- **Verification Screen**  
+  Enter the code sent to your email.
 
-Choose English or ไทย
+- **Dashboard**  
+  Shows your visa status and latest notifications.
 
-🧪 Run Tests
-bash
-Copy code
-flutter test
+- **Status Tracking**  
+  Shows every step of the application process.
 
-📁 Mock Data
-We use local JSON files instead of a real server:
+- **Language Button**  
+  Change language anytime (EN / TH).
 
-File	Description
-assets/users.json	Login usernames and passwords
-assets/verification_code.json	Email code for 2FA
-assets/dashboard/dashboard.json	Visa status + notifications
-assets/dashboard/status_tracking.json	Steps of the visa process
+---
 
-📱 Requirements
-Android 13+
-iOS 17.5+ (for NFC)
-Flutter 3.10+
+## 📦 How to Install
 
-👤 Author
-Made by Pichaya Deachpol
-This project is for demo
+### 1. Get the code
+
+```bash
+git clone https://github.com/your-org/work-permit-app.git
+cd work-permit-app
