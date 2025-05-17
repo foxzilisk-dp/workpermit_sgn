@@ -1,6 +1,6 @@
 {
-    "name": "hello_world",
-    "short_name": "hello_world",
+    "name": "work_permit_sgn",
+    "short_name": "work_permit",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
