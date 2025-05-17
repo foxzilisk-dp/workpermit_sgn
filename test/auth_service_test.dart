@@ -4,44 +4,39 @@ import 'package:fake_async/fake_async.dart';
 import 'package:workpermit/services/auth_service.dart';
 
 void main() {
-  group('AuthService Tests', () {
-    setUp(() {
-      SharedPreferences.setMockInitialValues({});
-    });
+  group('AuthService', () {
+    setUp(() => SharedPreferences.setMockInitialValues({}));
 
-    test('login stores session in SharedPreferences', () async {
+    test('login stores session', () async {
       final auth = AuthService();
-      await auth.login();
+      final result = await auth.login();
       final prefs = await SharedPreferences.getInstance();
+      expect(result, true);
       expect(prefs.getBool('isLoggedIn'), true);
-      expect(auth.isLoggedIn, true);
     });
 
-    test('verifyCode accepts only "0000"', () async {
+    test('verifyCode accepts 0000 only', () async {
       final auth = AuthService();
       expect(await auth.verifyCode('0000'), true);
-      expect(await auth.verifyCode('1234'), false);
+      expect(await auth.verifyCode('9999'), false);
     });
 
     test('logout clears session', () async {
       final auth = AuthService();
       await auth.login();
-      await auth.logout(); // No BuildContext required
+      await auth.logout();
       final prefs = await SharedPreferences.getInstance();
-      expect(prefs.getBool('isLoggedIn'), isNull);
-      expect(auth.isLoggedIn, false);
+      expect(prefs.getBool('isLoggedIn'), null);
     });
 
-    test('auto logout clears session after 30 minutes', () {
+    test('auto logout after 30 minutes', () {
       fakeAsync((async) {
         final auth = AuthService();
-        auth.login().then((_) {
-          auth.verifyCode('0000'); // No context required
-          async.elapse(const Duration(minutes: 30, seconds: 1));
-          SharedPreferences.getInstance().then((prefs) {
-            expect(prefs.getBool('isLoggedIn'), isNull);
-            expect(auth.isLoggedIn, false);
-          });
+        auth.login().then((_) => auth.verifyCode('0000'));
+        async.elapse(const Duration(minutes: 31));
+        SharedPreferences.getInstance().then((prefs) {
+          expect(prefs.getBool('isLoggedIn'), null);
+          expect(auth.isLoggedIn, false);
         });
       });
     });

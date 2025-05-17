@@ -1,0 +1,18 @@
+{
+  "visa_id": "LTR-22345",
+  "visa_status": "Under Review",
+  "notifications": [
+    {
+      "title": "Document Review",
+      "message": "Your documents are being reviewed",
+      "type": "review",
+      "time": "10m ago"
+    },
+    {
+      "title": "Application Received",
+      "message": "Your application has been received",
+      "type": "info",
+      "time": "2d ago"
+    }
+  ]
+}

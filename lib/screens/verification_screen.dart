@@ -17,16 +17,15 @@ class _VerificationScreenState extends State<VerificationScreen> {
       List.generate(4, (_) => TextEditingController());
   Timer? _resendTimer;
   int _secondsRemaining = 90;
-  String _expectedCode = '0000'; // default, will be overwritten
+  String _expectedCode = '0000';
 
   @override
   void initState() {
     super.initState();
     _startTimer();
-    _loadExpectedCode(); // load from mock JSON
+    _loadExpectedCode();
   }
 
-  // Load verification code from assets/mock/verification_code.json
   Future<void> _loadExpectedCode() async {
     final jsonStr =
         await rootBundle.loadString('assets/verification_code.json');
@@ -48,11 +47,24 @@ class _VerificationScreenState extends State<VerificationScreen> {
     });
   }
 
-  // Called when user taps "Verify"
-  void _submitCode() async {
+  void _onResendCode() async {
+    final localtext = AppLocalizations.of(context); // create before build
+
+    for (var controller in _controllers) {
+      controller.clear();
+    }
+    _startTimer();
+    await _loadExpectedCode();
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(localtext.translate('code_resent'))),
+    );
+  }
+
+  void _submitCode() {
     final code = _controllers.map((c) => c.text).join();
-    if (code == _expectedCode) {
-      Navigator.pushReplacementNamed(context, '/dashboard');
+    if (code == _expectedCode && _secondsRemaining > 0) {
+      Navigator.pushReplacementNamed(context, '/main');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -62,32 +74,63 @@ class _VerificationScreenState extends State<VerificationScreen> {
     }
   }
 
-  // Called when user taps "Resend Code"
-  void _onResendCode() async {
-    for (var controller in _controllers) {
-      controller.clear(); // Clear previous inputs
-    }
-
-    _startTimer(); // Restart timer
-    await _loadExpectedCode(); // Reload code from JSON (simulate refresh)
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Verification code has been resent.')),
-    );
+  String _formatTime(int seconds) {
+    final m = (seconds ~/ 60).toString().padLeft(1, '0');
+    final s = (seconds % 60).toString().padLeft(2, '0');
+    return '$m:$s';
   }
 
   @override
   Widget build(BuildContext context) {
-    final t = AppLocalizations.of(context);
+    final localtext = AppLocalizations.of(context);
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blue,
+        title: Text(localtext.translate('2fa_title'),
+            style: const TextStyle(
+                fontWeight: FontWeight.bold, color: Colors.white)),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            builder: (_) => Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.language, color: Colors.black),
+                  title: const Text('English'),
+                  onTap: () {
+                    widget.setLocale(const Locale('en'));
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.language, color: Colors.black),
+                  title: const Text('ไทย'),
+                  onTap: () {
+                    widget.setLocale(const Locale('th'));
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          );
+        },
+        backgroundColor: Colors.blue,
+        child: const Icon(Icons.language, color: Colors.white),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Blue icon in a bordered circle
               Container(
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
@@ -101,15 +144,12 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 ),
               ),
               const SizedBox(height: 24),
-
-              Text(t.translate('enter_code'),
+              Text(localtext.translate('enter_code'),
                   style: const TextStyle(fontSize: 18)),
               const SizedBox(height: 4),
-              Text(t.translate('login_hint'),
+              Text(localtext.translate('login_hint'),
                   style: TextStyle(color: Colors.grey[600], fontSize: 13)),
               const SizedBox(height: 24),
-
-              // 4 digit input boxes
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: List.generate(4, (i) {
@@ -135,8 +175,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 }),
               ),
               const SizedBox(height: 24),
-
-              // Verify button
               SizedBox(
                 width: double.infinity,
                 height: 48,
@@ -147,7 +185,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12)),
                   ),
-                  child: Text(t.translate('verify'),
+                  child: Text(localtext.translate('verify'),
                       style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -155,14 +193,12 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 ),
               ),
               const SizedBox(height: 12),
-
-              // Resend code button or countdown
               GestureDetector(
                 onTap: _secondsRemaining == 0 ? _onResendCode : null,
                 child: Text(
                   _secondsRemaining == 0
-                      ? t.translate('resend')
-                      : '${t.translate('resend')} (${_formatTime(_secondsRemaining)})',
+                      ? localtext.translate('resend')
+                      : '${localtext.translate('resend')} (${_formatTime(_secondsRemaining)})',
                   style: TextStyle(
                     fontSize: 13,
                     color:
@@ -178,12 +214,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
         ),
       ),
     );
-  }
-
-  String _formatTime(int seconds) {
-    final m = (seconds ~/ 60).toString().padLeft(1, '0');
-    final s = (seconds % 60).toString().padLeft(2, '0');
-    return '$m:$s';
   }
 
   @override

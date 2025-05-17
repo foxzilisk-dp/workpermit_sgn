@@ -3,7 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'local_stores/local_store.dart';
 import 'screens/login_screen.dart';
 import 'screens/verification_screen.dart';
-import 'screens/dashboard_screen.dart';
+import 'screens/main_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,6 +17,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   Locale _locale = const Locale('en');
 
+  // Allow dynamic locale switching from any screen
   void setLocale(Locale locale) {
     setState(() {
       _locale = locale;
@@ -26,6 +27,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       locale: _locale,
       localizationsDelegates: const [
         AppLocalizations.delegate,
@@ -37,18 +39,11 @@ class _MyAppState extends State<MyApp> {
         Locale('en'),
         Locale('th'),
       ],
-      localeResolutionCallback: (locale, supportedLocales) {
-        return supportedLocales.firstWhere(
-          (supported) => supported.languageCode == locale?.languageCode,
-          orElse: () => supportedLocales.first,
-        );
-      },
-      debugShowCheckedModeBanner: false,
       initialRoute: '/login',
       routes: {
         '/login': (context) => LoginScreen(setLocale: setLocale),
         '/verify': (context) => VerificationScreen(setLocale: setLocale),
-        '/dashboard': (context) => DashboardScreen(setLocale: setLocale),
+        '/main': (context) => MainScreen(setLocale: setLocale),
       },
     );
   }

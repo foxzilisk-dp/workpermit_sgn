@@ -1,0 +1,25 @@
+{
+  "application_id": "LTR-22345",
+  "steps": [
+    {
+      "title": "Application Submitted",
+      "timestamp": "2025-05-05T10:23:00",
+      "status": "done"
+    },
+    {
+      "title": "Initial Review",
+      "timestamp": "2025-05-06T14:45:00",
+      "status": "done"
+    },
+    {
+      "title": "Document Verification",
+      "timestamp": null,
+      "status": "in_progress"
+    },
+    {
+      "title": "Final Approval",
+      "timestamp": null,
+      "status": "pending"
+    }
+  ]
+}
