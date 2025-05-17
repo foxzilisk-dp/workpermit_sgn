@@ -44,16 +44,22 @@ You can log in, get a code by email (2FA), check your application, and see your 
 ```bash
 git clone https://github.com/foxzilisk-dp/workpermit_sgn.git
 cd workpermit_sgn
+```
+--- ```
 
 ### 2. Install packages
 
 ```bash
 flutter pub get
+```
+---```
 
 ### 3. Run the app
 
 ```bash
 flutter run
+```
+---```
 
 You need Android 13+ or iOS 17.5+.
 
@@ -80,6 +86,7 @@ To run all tests:
 
 ```bash
 flutter test
+```
 
 ---
 
